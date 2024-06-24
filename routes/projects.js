@@ -7,14 +7,18 @@ const {
     createProject,
     getAllProjects,
 } = require('../controllers/projects');
+const { validateProject } = require('../middleware/validate');
 
 router.get('/', getHomePage);
-router.route('/project').get(getAllProjects).post(createProject);
+router
+    .route('/project')
+    .get(getAllProjects)
+    .post(validateProject, createProject);
 
 router
     .route('/project/:id')
     .get(getProject)
-    .patch(updateProject)
+    .patch(validateProject, updateProject)
     .delete(deleteProject);
 
 module.exports = router;
