@@ -7,7 +7,11 @@ const projectSchema = new mongoose.Schema({
         trim: true,
         maxlength: [20, 'name can not be more then 20 characters'],
     },
-    project: {
+    link: {
+        type: String,
+        default: false,
+    },
+    technologies: {
         type: String,
         default: false,
     },
