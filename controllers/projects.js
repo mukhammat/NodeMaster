@@ -12,7 +12,7 @@ const getProject = asyncWrapper(async (req, res, next) => {
     const { id: projectID } = req.params;
     const project = await Project.findOne({ _id: projectID });
     if (!project) {
-        return next(createCustomError(`No task with id: ${projectID}`, 404));
+        return next(createCustomError(`No project with id: ${projectID}`, 404));
     }
     res.status(200).json({ project });
 });
@@ -35,19 +35,19 @@ const updateProject = asyncWrapper(async (req, res, next) => {
         }
     );
     if (!project) {
-        return next(createCustomError(`No task with id: ${projectID}`, 404));
+        return next(createCustomError(`No project with id: ${projectID}`, 404));
     }
     res.status(200).json({ project });
 });
 
 // Удаление проекта по ID
-const deleteProject = asyncWrapper(async (req, res) => {
-    const { id } = req.params;
+const deleteProject = asyncWrapper(async (req, res, next) => {
+    const { id: projectID } = req.params;
 
-    const project = await Project.findByIdAndDelete(id);
+    const project = await Project.findByIdAndDelete(projectID);
 
     if (!project) {
-        return res.status(404).json({ message: 'Project not found' });
+        return next(createCustomError(`No project with id: ${projectID}`, 404));
     }
 
     res.json({ message: 'Project deleted successfully' });
